@@ -7,7 +7,7 @@ module.exports = {
   },
   testMatch: ['<rootDir>/tests/**/*.(test|spec).ts'],
   setupFiles: ['<rootDir>/tests/setup-envs.ts'],
-  setupFilesAfterEnv: ['<rootDir>/tests/setup-files-after-env.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests/setup-envs.ts'],
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
     '@test/(.*)': '<rootDir>/tests/$1',
