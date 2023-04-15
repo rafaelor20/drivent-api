@@ -1,5 +1,3 @@
-//import { TicketType, Ticket } from '@prisma/client';
-import { CommerceProductNameDefinitions } from '@faker-js/faker';
 import ticketRepository from '@/repositories/tickets-repository';
 
 async function getTicketTypes() {
@@ -7,9 +5,8 @@ async function getTicketTypes() {
   return ticketTypes;
 }
 
-async function getTickets(token: string) {
-  const tickets = await ticketRepository.getTickets(token);
-  console.log(tickets);
+async function getTickets() {
+  const tickets = await ticketRepository.getTickets();
   return tickets;
 }
 

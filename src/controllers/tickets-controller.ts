@@ -14,8 +14,7 @@ export async function getTicketTypes(req: AuthenticatedRequest, res: Response) {
 
 export async function getTickets(req: AuthenticatedRequest, res: Response) {
   try {
-    const token = req.header('Authorization').split(' ')[1];
-    const tickets = await ticketsService.getTickets(token);
+    const tickets = await ticketsService.getTickets();
     return res.status(httpStatus.OK).send(tickets);
   } catch {
     return res.sendStatus(httpStatus.NO_CONTENT);
