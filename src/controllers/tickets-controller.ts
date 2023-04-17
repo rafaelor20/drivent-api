@@ -24,3 +24,19 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.NO_CONTENT);
   }
 }
+
+export async function createTicket(req: AuthenticatedRequest, res: Response) {
+  try {
+    const { userId } = req;
+
+    if (isNaN(req.body.ticketTypeId)) {
+      return res.sendStatus(httpStatus.BAD_REQUEST);
+    } else {
+      const ticketTypeId = req.body.ticketTypeId;
+      const ticket = await ticketsService.createTicket(userId, ticketTypeId);
+      return res.status(httpStatus.CREATED).send(ticket);
+    }
+  } catch {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
