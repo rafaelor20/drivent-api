@@ -14,11 +14,11 @@ export async function getTicketTypes(req: AuthenticatedRequest, res: Response) {
 
 export async function getTickets(req: AuthenticatedRequest, res: Response) {
   try {
-    const tickets = await ticketsService.getTickets();
-    if (tickets === undefined) {
+    const ticket = await ticketsService.getTickets();
+    if (ticket === null) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     } else {
-      return res.status(httpStatus.OK).send(tickets);
+      return res.status(httpStatus.OK).send(ticket);
     }
   } catch {
     return res.sendStatus(httpStatus.NO_CONTENT);

@@ -5,7 +5,11 @@ async function getTicketTypes() {
 }
 
 async function getTickets() {
-  return prisma.ticket.findMany();
+  return prisma.ticket.findFirst({
+    include: {
+      TicketType: true,
+    },
+  });
 }
 
 const ticketRepository = {
