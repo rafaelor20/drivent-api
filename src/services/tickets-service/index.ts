@@ -1,6 +1,6 @@
 import { TicketStatus } from '@prisma/client';
 import enrollmentRepository from '@/repositories/enrollment-repository';
-import ticketRepository from '@/repositories/tickets-repository';
+import ticketRepository from '@/repositories/ticket-repository';
 import { notFoundError } from '@/errors';
 
 async function getTicketTypes() {
