@@ -16,6 +16,7 @@ export async function getPayments(req: AuthenticatedRequest, res: Response) {
 
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
+    console.log(error);
     if (error.name === 'UnauthorizedError') {
       return res.status(httpStatus.UNAUTHORIZED).send(error.message);
     } else {
