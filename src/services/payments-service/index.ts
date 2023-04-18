@@ -28,8 +28,36 @@ async function getPayments(userId: number, ticketId: number) {
   return payment;
 }
 
+async function registerPayment(ticketId: number, userId: number, cardData: CardPaymentParams) {
+  await verifyTicketUser(ticketId, userId);
+
+  const ticket = await ticketRepository.getTicketWithTypeById(ticketId);
+
+  const paymentData = {
+    ticketId,
+    value: ticket.TicketType.price,
+    cardIssuer: cardData.issuer,
+    cardLastDigits: cardData.number.toString().slice(-4),
+  };
+
+  const payment = await paymentRepository.registerPayment(ticketId, paymentData);
+
+  await ticketRepository.ticketRegisterPayment(ticketId);
+
+  return payment;
+}
+
+export type CardPaymentParams = {
+  issuer: string;
+  number: number;
+  name: string;
+  expirationDate: Date;
+  cvv: number;
+};
+
 const paymentsService = {
   getPayments,
+  registerPayment,
 };
 
 export default paymentsService;

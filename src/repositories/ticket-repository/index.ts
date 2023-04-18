@@ -1,4 +1,4 @@
-import { Ticket } from '@prisma/client';
+import { Ticket, TicketStatus } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function getTicketTypes() {
@@ -40,6 +40,28 @@ async function findTicketByEnrollmentId(enrollmentId: number) {
   });
 }
 
+async function getTicketWithTypeById(ticketId: number) {
+  return prisma.ticket.findFirst({
+    where: {
+      id: ticketId,
+    },
+    include: {
+      TicketType: true,
+    },
+  });
+}
+
+async function ticketRegisterPayment(ticketId: number) {
+  return prisma.ticket.update({
+    where: {
+      id: ticketId,
+    },
+    data: {
+      status: TicketStatus.PAID,
+    },
+  });
+}
+
 export type CreateTicketParams = Omit<Ticket, 'id' | 'createdAt' | 'updatedAt'>;
 
 const ticketRepository = {
@@ -48,6 +70,8 @@ const ticketRepository = {
   createTicket,
   findTicketByEnrollmentId,
   getTicketById,
+  getTicketWithTypeById,
+  ticketRegisterPayment,
 };
 
 export default ticketRepository;
