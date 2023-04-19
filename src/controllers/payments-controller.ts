@@ -3,40 +3,34 @@ import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import paymentsService from '@/services/payments-service';
 
-export async function getPayments(req: AuthenticatedRequest, res: Response) {
+export async function getPaymentByTicketId(req: AuthenticatedRequest, res: Response) {
   try {
     const ticketId = Number(req.query.ticketId);
-    const userId = req.userId;
+    const { userId } = req;
 
-    if (!ticketId) {
-      return res.status(httpStatus.BAD_REQUEST).send('Ticket id is required');
-    }
+    if (!ticketId) return res.sendStatus(httpStatus.BAD_REQUEST);
 
-    const payment = await paymentsService.getPayments(Number(userId), ticketId);
+    const payment = await paymentsService.getPaymentByTicketId(userId, ticketId);
+    if (!payment) return res.sendStatus(httpStatus.NOT_FOUND);
 
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
     if (error.name === 'UnauthorizedError') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error.message);
-    } else {
-      return res.sendStatus(httpStatus.NOT_FOUND);
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
+    return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
 
-export async function registerPayment(req: AuthenticatedRequest, res: Response) {
+export async function paymentProcess(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const { ticketId, cardData } = req.body;
+
   try {
-    const { userId } = req;
-    const { ticketId, cardData } = req.body;
+    if (!ticketId || !cardData) return res.sendStatus(httpStatus.BAD_REQUEST);
 
-    if (!ticketId || !cardData) {
-      return res.status(httpStatus.BAD_REQUEST).send('Ticket id and Card data are required');
-    }
-    const payment = await paymentsService.registerPayment(ticketId, userId, cardData);
-
-    if (!payment) {
-      return res.sendStatus(httpStatus.NOT_FOUND);
-    }
+    const payment = await paymentsService.paymentProcess(ticketId, userId, cardData);
+    if (!payment) return res.sendStatus(httpStatus.NOT_FOUND);
 
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
