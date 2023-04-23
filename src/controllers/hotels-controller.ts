@@ -20,6 +20,10 @@ export async function getRoomsOfHotel(req: AuthenticatedRequest, res: Response):
   try {
     const { userId } = req;
     const { hotelId } = req.params;
+
+    const hotels = await hotelsService.getRoomsOfHotel(Number(userId), Number(hotelId));
+
+    return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
     if (error.name === 'NotFoundError') {
       return res.sendStatus(httpStatus.NOT_FOUND);
