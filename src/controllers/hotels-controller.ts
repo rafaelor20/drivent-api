@@ -9,10 +9,10 @@ export async function getHotelsByUserId(req: AuthenticatedRequest, res: Response
     const hotels = hotelsService.getHotelsByUserId(userId);
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
-    if (error.name === 'NotFoundError') {
-      return res.sendStatus(httpStatus.NOT_FOUND);
+    if (error.name === 'invalidTicket') {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
-    return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
 
