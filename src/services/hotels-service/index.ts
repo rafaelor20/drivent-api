@@ -24,11 +24,11 @@ async function getHotelsByUserId(userId: number) {
   await checkUserById(userId);
 
   const hotels = await hotelRepository.findHotels();
-
+  /*
   if (hotels.length === 0) {
     throw notFoundError();
   }
-
+  */
   return hotels;
 }
 

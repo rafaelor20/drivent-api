@@ -7,6 +7,11 @@ export async function getHotelsByUserId(req: AuthenticatedRequest, res: Response
   try {
     const { userId } = req;
     const hotels = await hotelsService.getHotelsByUserId(userId);
+
+    if (hotels.length === 0) {
+      return res.status(httpStatus.NOT_FOUND).send([]);
+    }
+
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
     if (error.name === 'invalidTicket') {
@@ -21,9 +26,13 @@ export async function getRoomsOfHotel(req: AuthenticatedRequest, res: Response):
     const { userId } = req;
     const { hotelId } = req.params;
 
-    const hotels = await hotelsService.getRoomsOfHotel(Number(userId), Number(hotelId));
+    const hotel = await hotelsService.getRoomsOfHotel(Number(userId), Number(hotelId));
 
-    return res.status(httpStatus.OK).send(hotels);
+    if (hotel === null) {
+      return res.status(httpStatus.NOT_FOUND).send([]);
+    }
+
+    return res.status(httpStatus.OK).send(hotel);
   } catch (error) {
     if (error.name === 'NotFoundError') {
       return res.sendStatus(httpStatus.NOT_FOUND);
