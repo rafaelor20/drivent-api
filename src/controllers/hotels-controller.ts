@@ -9,7 +9,7 @@ export async function getHotelsByUserId(req: AuthenticatedRequest, res: Response
     const hotels = await hotelsService.getHotelsByUserId(userId);
 
     if (hotels.length === 0) {
-      return res.status(httpStatus.NOT_FOUND).send([]);
+      return res.status(httpStatus.NOT_FOUND).send(hotels);
     }
 
     return res.status(httpStatus.OK).send(hotels);

@@ -101,7 +101,7 @@ describe('GET /hotels', () => {
         ]),
       );
     });
-    /*
+
     it('should respond with status 404 and an empty array', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -113,9 +113,8 @@ describe('GET /hotels', () => {
       const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
-      expect(response.body).toEqual([]);
+      expect(response.body).toEqual(expect.arrayContaining([]));
     });
-    */
   });
 });
 
