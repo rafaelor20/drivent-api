@@ -175,7 +175,7 @@ describe('GET /hotels/:hotelId', () => {
 
       await createHotel();
 
-      const response = await server.get('/hotels/100').set('Authorization', `Bearer ${token}`);
+      const response = await server.get('/hotels/1000').set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
     });
