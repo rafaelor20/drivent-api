@@ -11,6 +11,10 @@ async function checkUserById(userId: number) {
 
   const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
 
+  if (!ticket) {
+    throw notFoundError();
+  }
+
   if (ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
     throw invalidTicketError();
   }
@@ -20,6 +24,11 @@ async function getHotelsByUserId(userId: number) {
   await checkUserById(userId);
 
   const hotels = await hotelRepository.findHotels();
+
+  if (hotels.length === 0) {
+    throw notFoundError();
+  }
+
   return hotels;
 }
 

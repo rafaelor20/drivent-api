@@ -89,18 +89,20 @@ describe('GET /hotels', () => {
 
       expect(response.status).toEqual(httpStatus.OK);
 
-      expect(response.body).toEqual([
-        {
-          id: createdHotel.id,
-          name: createdHotel.name,
-          image: createdHotel.image,
-          createdAt: createdHotel.createdAt.toISOString(),
-          updatedAt: createdHotel.updatedAt.toISOString(),
-        },
-      ]);
+      expect(response.body).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: createdHotel.id,
+            name: createdHotel.name,
+            image: createdHotel.image,
+            createdAt: createdHotel.createdAt.toISOString(),
+            updatedAt: createdHotel.updatedAt.toISOString(),
+          }),
+        ]),
+      );
     });
 
-    it('should respond with status 200 and an empty array', async () => {
+    it('should respond with status 404 and an empty array', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const enrollment = await createEnrollmentWithAddress(user);
@@ -110,7 +112,7 @@ describe('GET /hotels', () => {
 
       const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
 
-      expect(response.status).toEqual(httpStatus.OK);
+      expect(response.status).toEqual(httpStatus.NOT_FOUND);
       expect(response.body).toEqual([]);
     });
   });

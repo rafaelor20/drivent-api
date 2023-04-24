@@ -6,7 +6,7 @@ import hotelsService from '@/services/hotels-service';
 export async function getHotelsByUserId(req: AuthenticatedRequest, res: Response): Promise<Response> {
   try {
     const { userId } = req;
-    const hotels = hotelsService.getHotelsByUserId(userId);
+    const hotels = await hotelsService.getHotelsByUserId(userId);
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
     if (error.name === 'invalidTicket') {
