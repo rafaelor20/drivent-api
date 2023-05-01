@@ -133,7 +133,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src/controllers/bookings-controller.ts
+SF:src/controllers/booking-controller.ts
 FN:6,getBooking
 FN:20,registerBooking
 FN:34,changeBooking
@@ -1150,7 +1150,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:src/services/bookings-service/index.ts
+SF:src/services/booking-service/index.ts
 FN:7,checkEnrollmentTicket
 FN:19,checkValidBooking
 FN:30,getBooking
