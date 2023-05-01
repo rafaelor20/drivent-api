@@ -39,6 +39,21 @@ async function registerBooking(userId: number, roomId: number) {
   return bookingRepository.create({ roomId, userId });
 }
 
-const bookingService = { getBooking, registerBooking };
+async function changeRoom(userId: number, roomId: number) {
+  await checkValidBooking(roomId);
+  const booking = await bookingRepository.findBooking(userId);
+
+  if (!booking || booking.userId !== userId) {
+    throw cannotBookingError();
+  }
+
+  return bookingRepository.upsertBooking({
+    id: booking.id,
+    roomId,
+    userId,
+  });
+}
+
+const bookingService = { getBooking, registerBooking, changeRoom };
 
 export default bookingService;

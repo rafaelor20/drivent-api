@@ -2,6 +2,7 @@ import { Booking } from '@prisma/client';
 import { prisma } from '@/config';
 
 type CreateParams = Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>;
+type UpdateParams = Omit<Booking, 'createdAt' | 'updatedAt'>;
 
 async function create({ roomId, userId }: CreateParams): Promise<Booking> {
   return prisma.booking.create({
@@ -34,10 +35,26 @@ async function findBooking(userId: number) {
   });
 }
 
+async function upsertBooking({ id, roomId, userId }: UpdateParams) {
+  return prisma.booking.upsert({
+    where: {
+      id,
+    },
+    create: {
+      roomId,
+      userId,
+    },
+    update: {
+      roomId,
+    },
+  });
+}
+
 const bookingRepository = {
   create,
   findByRoomId,
   findBooking,
+  upsertBooking,
 };
 
 export default bookingRepository;
