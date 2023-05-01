@@ -675,13 +675,13 @@ end_of_record
 TN:
 SF:src/repositories/booking-repository/index.ts
 FN:7,create
-FN:16,findByRoomId
+FN:16,findBookingByRoomId
 FN:27,findBooking
 FN:38,upsertBooking
 FNF:4
 FNH:4
 FNDA:1,create
-FNDA:7,findByRoomId
+FNDA:7,findBookingByRoomId
 FNDA:4,findBooking
 FNDA:1,upsertBooking
 DA:2,11

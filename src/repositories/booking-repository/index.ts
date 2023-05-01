@@ -13,7 +13,7 @@ async function create({ roomId, userId }: CreateParams): Promise<Booking> {
   });
 }
 
-async function findByRoomId(roomId: number) {
+async function findBookingByRoomId(roomId: number) {
   return prisma.booking.findMany({
     where: {
       roomId,
@@ -52,7 +52,7 @@ async function upsertBooking({ id, roomId, userId }: UpdateParams) {
 
 const bookingRepository = {
   create,
-  findByRoomId,
+  findBookingByRoomId,
   findBooking,
   upsertBooking,
 };

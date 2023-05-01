@@ -18,7 +18,7 @@ async function checkEnrollmentTicket(userId: number) {
 
 async function checkValidBooking(roomId: number) {
   const room = await roomRepository.findById(roomId);
-  const bookings = await bookingRepository.findByRoomId(roomId);
+  const bookings = await bookingRepository.findBookingByRoomId(roomId);
   if (!room) {
     throw notFoundError();
   }
